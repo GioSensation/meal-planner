@@ -1,31 +1,40 @@
-import React from 'react'
-import { useSubscription } from 'react-apollo-hooks'
-import { SUBSCRIBE_TO_DAY } from '../graphql/subscriptions';
+import React, {useState} from 'react'
+import { useMutation } from 'react-apollo-hooks'
+import { ADD_MEAL_TO_DAY } from '../graphql/mutations'
+import { GET_MEALS } from '../graphql/queries'
+import Meal from './Meal';
 
 const Day = ({day: {id, name, meals}}) => {
-    const { data, error, loading } = useSubscription(SUBSCRIBE_TO_DAY, {
-        variables: { id },
-        onSubscriptionData: ({ client, subscriptionData }) => {
-            // Optional callback which provides you access to the new subscription
-            // data and the Apollo client. You can use methods of the client to update
-            // the Apollo cache:
-            // https://www.apollographql.com/docs/react/advanced/caching.html#direct
-            console.log(subscriptionData);
-        }});
-    // if (loading) {
-    //     return <div>Loading...</div>
-    // }
-    // if (error) {
-    //     return <div>Error! {error.message}</div>
-    // }
+    const [isDragTarget, setIsDragTarget] = useState(false);
+    const addMealsToDay = useMutation(ADD_MEAL_TO_DAY, { refetchQueries: [{ query: GET_MEALS }] })
 
-    console.log(data, error, loading)
+    const dragEnter = (e) => {
+        e.preventDefault()
+        setIsDragTarget(true)
+    }
+    const dragLeave = (e) => {
+        e.preventDefault()
+        setIsDragTarget(false)
+    }
+    const drop = (e) => {
+        e.preventDefault()
+        setIsDragTarget(false)
+        addMealsToDay({ variables: {
+            dayId: id,
+            mealId: e.dataTransfer.getData('id')
+        }})
+    }
 
     return (
-        <div>
+        <div
+            className={`${isDragTarget ? 'drag-target' : ''}`}
+            onDragOver={dragEnter}
+            onDragLeave={dragLeave}
+            onDrop={drop}
+        >
             <h2>{name}</h2>
             <ul>
-                {meals.map(meal => <li key={meal.id}>{meal.name}</li>)}
+                {meals.map(meal => <Meal key={meal.id} meal={meal} removeAction="removeFromDay" dayId={id} />)}
             </ul>
         </div>
     )
