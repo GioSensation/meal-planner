@@ -1,3 +1,9 @@
+@font-face {
+    font-family:"Pacifico";
+    src:url("./Pacifico.woff2") format("woff2"),url("./Pacifico.woff") format("woff"),url("./Pacifico.ttf") format("opentype");
+    font-style:normal;font-weight:400;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -21,6 +27,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.main-title {
+  font-family: Pacifico, sans-serif;
 }
 
 .App-link {

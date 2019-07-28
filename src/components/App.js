@@ -8,6 +8,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <header><h1 className="main-title">Meal planner</h1></header>
         <MealList />
         <AddMeal />
         <DayList />
