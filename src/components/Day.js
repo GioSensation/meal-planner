@@ -6,7 +6,7 @@ import Meal from './Meal';
 
 const Day = ({day: {id, name, meals}}) => {
     const [isDragTarget, setIsDragTarget] = useState(false);
-    const addMealsToDay = useMutation(ADD_MEAL_TO_DAY, { refetchQueries: [{ query: GET_MEALS }] })
+    const [addMealsToDay] = useMutation(ADD_MEAL_TO_DAY, { refetchQueries: [{ query: GET_MEALS }] })
 
     const dragEnter = (e) => {
         e.preventDefault()
