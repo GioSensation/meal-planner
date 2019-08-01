@@ -1,4 +1,4 @@
-endpoint: https://eu1.prisma.sh/emanuele-28b3be/meal-planner/dev
+endpoint: __ENTER YOUR ENDPOINT HERE - GET IT ON APP.PRISMA.IO__
 datamodel: datamodel.prisma
 seed:
   import: seed.zip
