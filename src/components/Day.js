@@ -1,12 +1,17 @@
 import React, {useState} from 'react'
 import { useMutation } from 'react-apollo-hooks'
-import { ADD_MEAL_TO_DAY } from '../graphql/mutations'
-import { GET_MEALS } from '../graphql/queries'
+import {ADD_MEAL_TO_DAY, REMOVE_MEAL_FROM_DAY} from '../graphql/mutations'
+import {GET_DAYS, GET_MEALS} from '../graphql/queries'
 import Meal from './Meal';
 
 const Day = ({day: {id, name, meals}}) => {
     const [isDragTarget, setIsDragTarget] = useState(false);
-    const [addMealsToDay] = useMutation(ADD_MEAL_TO_DAY, { refetchQueries: [{ query: GET_MEALS }] })
+    const [addMealsToDay] = useMutation(ADD_MEAL_TO_DAY, {
+        refetchQueries: [{ query: GET_MEALS }]
+    })
+    const [removeMealFromDay] = useMutation(REMOVE_MEAL_FROM_DAY, {
+        refetchQueries: [{ query: GET_MEALS }, { query: GET_DAYS }]
+    })
 
     const dragEnter = (e) => {
         e.preventDefault()
@@ -34,7 +39,13 @@ const Day = ({day: {id, name, meals}}) => {
         >
             <h2>{name}</h2>
             <ul>
-                {meals.map(meal => <Meal key={meal.id} meal={meal} removeAction="removeFromDay" dayId={id} />)}
+                {meals.map(meal => <Meal
+                    key={meal.id}
+                    meal={meal}
+                    removeCallback={removeMealFromDay.bind(null, {
+                        variables: {mealId: meal.id, dayId: id}
+                    })}
+                />)}
             </ul>
         </div>
     )
