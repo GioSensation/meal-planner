@@ -1,4 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Meal Planner demo app with React + GraphQL + Prisma Cloud
+
+![Meal Planner Demo screenshot](./public/meal-planner-demo-react-graphql-prisma.png)
+
+## Setup Prisma Cloud and Prisma CLI
+
+The project was deployed on [Prisma Cloud.](https://www.prisma.io/cloud). You can setup your instance of [Prisma Cloud for free](https://app.prisma.io). Follow the instructions to create the account and a service. For the purpose of this demo, it doesn't matter what database or location you choose.
+
+[Install the Prisma CLI](https://www.prisma.io/docs/prisma-cli-and-configuration/using-the-prisma-cli-alx4/) on your computer.
+
+Please note that we will be using a environment variable to setup the Prisma secret (see [Using variables in prisma.yml](https://www.prisma.io/docs/prisma-cli-and-configuration/prisma-yml-5cy7/#environment-variable). Add an environment variable called `PRISMA_SECRET`. It can be whatever string you want.
+
+Then open the terminal in `./server/` and run:
+
+```shell script
+prisma deploy
+```
+
+This will create the service and database on Prisma Cloud and it will populate the days collection using the `seed` option in _prisma.yml_ and the default data in _seed.zip_ (check [here](https://www.prisma.io/docs/reference/service-configuration/prisma.yml/yaml-structure-ufeshusai8#seed-(optional)) for more information).
+
+## Setup the Meal Planner demo
+
+Copy the Prisma endpoint from the service interface and paste it as the `endpoint` value in _server/prisma.yml_. If the pasted value contains a `header` query parameter, you must remove it.
+
+![Get the endpoint from the Prisma Cloud service interface](./public/prisma-cloud-endpoint.png)
+
+Rename _.env-sample_ to just _.env_ and past the same endpoint value in `REACT_APP_PRISMA_URL`. You can get the `bearer` value simply by running `prisma token` from the `./server` folder. Paste it in `REACT_APP_PRISMA_BEARER`.
+
+Now, from the root folder of the project run:
+
+```shell script
+npm install
+npm start
+```
+
+This should do it. If you have problems setting it up, please open a Github or ping me on Twitter. I am [@EFeliziani](https://twitter.com/EFeliziani).
 
 ## Available Scripts
 
