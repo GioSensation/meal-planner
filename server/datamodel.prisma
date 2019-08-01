@@ -1,15 +1,15 @@
 type User {
-  id: ID! @unique
+  id: ID! @id
   name: String!
 }
 
 type Meal {
-  id: ID! @unique
+  id: ID! @id
   name: String!
 }
 
 type Day {
-  id: ID! @unique
+  id: ID! @id
   name: String!
   meals: [Meal!]!
 }
