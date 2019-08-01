@@ -8,7 +8,10 @@ import * as serviceWorker from './serviceWorker';
 
 // Pass your prisma endpoint to uri
 const client = new ApolloClient({
-    uri: 'https://eu1.prisma.sh/emanuele-28b3be/meal-planner/dev'
+    uri: process.env.REACT_APP_PRISMA_URL,
+    headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_PRISMA_BEARER}`
+    }
 });
 
 ReactDOM.render(
