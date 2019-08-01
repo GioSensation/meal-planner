@@ -11,6 +11,9 @@
 # production
 /build
 
+# prisma generated
+/server/generated
+
 # misc
 .DS_Store
 .env.local
